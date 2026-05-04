@@ -46,6 +46,9 @@ impl_carrying_mul_add_by_widening! {
 
 #[cfg(target_pointer_width = "16")]
 type UDoubleSize = u32;
+// hopefully close enough
+#[cfg(target_pointer_width = "24")]
+type UDoubleSize = u64;
 #[cfg(target_pointer_width = "32")]
 type UDoubleSize = u64;
 #[cfg(target_pointer_width = "64")]

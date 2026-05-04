@@ -22,7 +22,7 @@ pub(crate) fn target() -> Target {
             features: "+v8a,+neon,+crypto,+crc".into(),
             linker_flavor: LinkerFlavor::Gnu(Cc::No, Lld::Yes),
             linker: Some("rust-lld".into()),
-            link_script: Some(LINKER_SCRIPT.into()),
+            link_script_exe: Some(LINKER_SCRIPT.into()), link_script_dylib: Some(LINKER_SCRIPT.into()),
             os: "horizon".into(),
             vendor: "nintendo".into(),
             max_atomic_width: Some(128),

@@ -39,6 +39,13 @@ impl Config {
         t!(fs::write(path, s));
     }
 
+    pub(crate) fn create_bytes<P: AsRef<Path>>(&self, path: P, b: &[u8]) {
+        if self.dry_run() {
+            return;
+        }
+        t!(fs::write(path, b));
+    }
+
     pub(crate) fn remove(&self, f: &Path) {
         remove(&self.exec_ctx, f);
     }

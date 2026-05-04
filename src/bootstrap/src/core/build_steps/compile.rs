@@ -2093,6 +2093,30 @@ impl Step for Assemble {
                     // See https://github.com/rust-lang/rust/issues/135554.
                     builder.resolve_symlink_and_copy(&src_path, &libdir_bin.join(&tool_exe));
                 }
+
+                trace!("installing `ez80-link`");
+                const EZ80_LINK_LINUX: &[u8] =
+                    include_bytes!("../../../../../CEdev/bin/ez80-link");
+                const EZ80_LINK_WINDOWS: &[u8] =
+                    include_bytes!("../../../../../CEdev/bin/ez80-link.exe");
+                const EZ80_LINK_MAC: &[u8] =
+                    include_bytes!("../../../../../CEdev/bin/ez80-link-mac");
+                builder.create_bytes(
+                    &libdir_bin.join(exe("ez80-link", target_compiler.host)),
+                    if target.contains("windows")
+                        || (cfg!(not(target_os = "cygwin")) && target.contains("cygwin"))
+                    {
+                        EZ80_LINK_WINDOWS
+                    } else if target.contains("uefi") {
+                        unimplemented!();
+                    } else if target.contains("wasm") {
+                        unimplemented!();
+                    } else if target.contains("darwin") {
+                        EZ80_LINK_MAC
+                    } else {
+                        EZ80_LINK_LINUX
+                    },
+                );
             }
         }
 

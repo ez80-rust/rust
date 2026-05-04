@@ -25,7 +25,7 @@ pub(crate) fn target() -> Target {
         c_enum_min_bits: Some(8),
         default_uwtable: true,
         has_thumb_interworking: true,
-        link_script: Some(LINKER_SCRIPT.into()),
+        link_script_exe: Some(LINKER_SCRIPT.into()), link_script_dylib: Some(LINKER_SCRIPT.into()),
         ..Default::default()
     };
     Target {

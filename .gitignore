@@ -99,4 +99,7 @@ tests/rustdoc-gui/src/**.lock
 flake.lock
 /default.nix
 
+# Large binary files
+CEdev/
+
 # Before adding new lines, see the comment at the top.

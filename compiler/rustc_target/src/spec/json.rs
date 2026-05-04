@@ -102,7 +102,8 @@ impl Target {
         forward!(late_link_args_dynamic_json);
         forward!(late_link_args_static_json);
         forward!(post_link_args_json);
-        forward_opt!(link_script);
+        forward_opt!(link_script_exe);
+        forward_opt!(link_script_dylib);
 
         if let Some(link_env) = json.link_env {
             for s in link_env {
@@ -308,7 +309,8 @@ impl ToJson for Target {
         target_option_val!(link_args - late_link_args_dynamic_json, "late-link-args-dynamic");
         target_option_val!(link_args - late_link_args_static_json, "late-link-args-static");
         target_option_val!(link_args - post_link_args_json, "post-link-args");
-        target_option_val!(link_script);
+        target_option_val!(link_script_exe);
+        target_option_val!(link_script_dylib);
         target_option_val!(env - link_env);
         target_option_val!(link_env_remove);
         target_option_val!(asm_args);
@@ -528,7 +530,8 @@ struct TargetSpecJson {
     late_link_args_static_json: Option<LinkArgsCli>,
     #[serde(rename = "post-link-args")]
     post_link_args_json: Option<LinkArgsCli>,
-    link_script: Option<StaticCow<str>>,
+    link_script_exe: Option<StaticCow<str>>,
+    link_script_dylib: Option<StaticCow<str>>,
     link_env: Option<Vec<StaticCow<str>>>,
     link_env_remove: Option<StaticCow<[StaticCow<str>]>>,
     asm_args: Option<StaticCow<[StaticCow<str>]>>,

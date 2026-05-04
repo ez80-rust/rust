@@ -76,7 +76,7 @@ pub unsafe extern "C" fn LLVMRustStringWriteImpl(
 /// N.B., this function can't be moved to `rustc_codegen_llvm` because of the `cfg`s.
 pub fn initialize_available_targets() {
     macro_rules! init_target(
-        ($cfg:meta, $($method:ident),*) => { {
+        ($cfg:meta, $($method:ident),* $(,)?) => { {
             #[cfg($cfg)]
             fn init() {
                 unsafe extern "C" {
@@ -247,5 +247,13 @@ pub fn initialize_available_targets() {
         LLVMInitializeBPFTargetMC,
         LLVMInitializeBPFAsmPrinter,
         LLVMInitializeBPFAsmParser
+    );
+    init_target!(
+        llvm_component = "z80",
+        LLVMInitializeZ80TargetInfo,
+        LLVMInitializeZ80Target,
+        LLVMInitializeZ80TargetMC,
+        LLVMInitializeZ80AsmPrinter,
+        // LLVMInitializeZ80AsmParser
     );
 }

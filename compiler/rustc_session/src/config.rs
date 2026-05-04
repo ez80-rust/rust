@@ -1651,7 +1651,7 @@ pub fn build_target_config(
                 early_dcx.early_warn(warning)
             }
 
-            if !matches!(target.pointer_width, 16 | 32 | 64) {
+            if !matches!(target.pointer_width, 16 | 24 | 32 | 64) {
                 early_dcx.early_fatal(format!(
                     "target specification was invalid: unrecognized target-pointer-width {}",
                     target.pointer_width

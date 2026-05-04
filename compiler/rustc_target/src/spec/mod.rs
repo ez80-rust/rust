@@ -1797,6 +1797,9 @@ supported_targets! {
     ("x86_64-lynx-lynxos178", x86_64_lynx_lynxos178),
 
     ("x86_64-pc-cygwin", x86_64_pc_cygwin),
+
+    ("ez80-unknown-none", ez80_unknown_none),
+    ("ez80-ti-84plce", ez80_ti_84plce),
 }
 
 /// Cow-Vec-Str: Cow<'static, [Cow<'static, str>]>
@@ -2020,10 +2023,14 @@ pub struct TargetOptions {
     pub post_link_args: LinkArgs,
     post_link_args_json: LinkArgsCli,
 
-    /// Optional link script applied to `dylib` and `executable` crate types.
+    /// Optional link script applied to `executable` crate types.
     /// This is a string containing the script, not a path. Can only be applied
     /// to linkers where linker flavor matches `LinkerFlavor::Gnu(..)`.
-    pub link_script: Option<StaticCow<str>>,
+    pub link_script_exe: Option<StaticCow<str>>,
+    /// Optional link script applied to `dylib` crate types.
+    /// This is a string containing the script, not a path. Can only be applied
+    /// to linkers where linker flavor matches `LinkerFlavor::Gnu(..)`.
+    pub link_script_dylib: Option<StaticCow<str>>,
     /// Environment variables to be set for the linker invocation.
     pub link_env: StaticCow<[(StaticCow<str>, StaticCow<str>)]>,
     /// Environment variables to be removed for the linker invocation.
@@ -2476,7 +2483,8 @@ impl Default for TargetOptions {
             linker_flavor_json: LinkerFlavorCli::Gcc,
             lld_flavor_json: LldFlavor::Ld,
             linker_is_gnu_json: true,
-            link_script: None,
+            link_script_exe: None,
+            link_script_dylib: None,
             asm_args: cvs![],
             cpu: "generic".into(),
             need_explicit_cpu: false,
