@@ -39,6 +39,21 @@ pub enum AtomicOrdering {
     SeqCst = 4,
 }
 
+fn i24_to_string(mut val: u32) -> String {
+    debug_assert_eq!(val & 0xFF000000, 0);
+
+    let val = if val & 0x800000 > 0 {
+        // negative
+        val = !val;
+        -(val as i32)
+    } else {
+        // positive
+        val as i32
+    };
+
+    val.to_string()
+}
+
 impl std::fmt::Debug for ConstInt {
     fn fmt(&self, fmt: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let Self { int, signed, is_ptr_sized_integral } = *self;
@@ -53,6 +68,7 @@ impl std::fmt::Debug for ConstInt {
                     (_, true) => write!(fmt, "isize::MIN"),
                     (1, _) => write!(fmt, "i8::MIN"),
                     (2, _) => write!(fmt, "i16::MIN"),
+                    (3, _) => write!(fmt, "i24::MIN"),
                     (4, _) => write!(fmt, "i32::MIN"),
                     (8, _) => write!(fmt, "i64::MIN"),
                     (16, _) => write!(fmt, "i128::MIN"),
@@ -63,6 +79,7 @@ impl std::fmt::Debug for ConstInt {
                     (_, true) => write!(fmt, "isize::MAX"),
                     (1, _) => write!(fmt, "i8::MAX"),
                     (2, _) => write!(fmt, "i16::MAX"),
+                    (3, _) => write!(fmt, "i24::MAX"),
                     (4, _) => write!(fmt, "i32::MAX"),
                     (8, _) => write!(fmt, "i64::MAX"),
                     (16, _) => write!(fmt, "i128::MAX"),
@@ -72,6 +89,7 @@ impl std::fmt::Debug for ConstInt {
                 match size {
                     1 => write!(fmt, "{}", raw as i8)?,
                     2 => write!(fmt, "{}", raw as i16)?,
+                    3 => write!(fmt, "{}", i24_to_string(raw as u32))?,
                     4 => write!(fmt, "{}", raw as i32)?,
                     8 => write!(fmt, "{}", raw as i64)?,
                     16 => write!(fmt, "{}", raw as i128)?,
@@ -82,6 +100,7 @@ impl std::fmt::Debug for ConstInt {
                         (_, true) => write!(fmt, "_isize")?,
                         (1, _) => write!(fmt, "_i8")?,
                         (2, _) => write!(fmt, "_i16")?,
+                        (3, _) => write!(fmt, "_i24")?,
                         (4, _) => write!(fmt, "_i32")?,
                         (8, _) => write!(fmt, "_i64")?,
                         (16, _) => write!(fmt, "_i128")?,
@@ -97,6 +116,7 @@ impl std::fmt::Debug for ConstInt {
                     (_, true) => write!(fmt, "usize::MAX"),
                     (1, _) => write!(fmt, "u8::MAX"),
                     (2, _) => write!(fmt, "u16::MAX"),
+                    (3, _) => write!(fmt, "u24::MAX"),
                     (4, _) => write!(fmt, "u32::MAX"),
                     (8, _) => write!(fmt, "u64::MAX"),
                     (16, _) => write!(fmt, "u128::MAX"),
@@ -106,6 +126,7 @@ impl std::fmt::Debug for ConstInt {
                 match size {
                     1 => write!(fmt, "{}", raw as u8)?,
                     2 => write!(fmt, "{}", raw as u16)?,
+                    3 => write!(fmt, "{}", raw as u32)?, // actually u24, but close enough :P
                     4 => write!(fmt, "{}", raw as u32)?,
                     8 => write!(fmt, "{}", raw as u64)?,
                     16 => write!(fmt, "{}", raw as u128)?,
@@ -116,6 +137,7 @@ impl std::fmt::Debug for ConstInt {
                         (_, true) => write!(fmt, "_usize")?,
                         (1, _) => write!(fmt, "_u8")?,
                         (2, _) => write!(fmt, "_u16")?,
+                        (3, _) => write!(fmt, "_u24")?,
                         (4, _) => write!(fmt, "_u32")?,
                         (8, _) => write!(fmt, "_u64")?,
                         (16, _) => write!(fmt, "_u128")?,
