@@ -12,6 +12,7 @@ use crate::mir::place::PlaceRef;
 pub trait BaseTypeCodegenMethods: BackendTypes {
     fn type_i8(&self) -> Self::Type;
     fn type_i16(&self) -> Self::Type;
+    fn type_i24(&self) -> Self::Type;
     fn type_i32(&self) -> Self::Type;
     fn type_i64(&self) -> Self::Type;
     fn type_i128(&self) -> Self::Type;
@@ -46,6 +47,7 @@ pub trait DerivedTypeCodegenMethods<'tcx>:
     fn type_int(&self) -> Self::Type {
         match &self.sess().target.c_int_width {
             16 => self.type_i16(),
+            24 => self.type_i24(),
             32 => self.type_i32(),
             64 => self.type_i64(),
             width => bug!("Unsupported c_int_width: {}", width),
@@ -57,6 +59,7 @@ pub trait DerivedTypeCodegenMethods<'tcx>:
         match i {
             I8 => self.type_i8(),
             I16 => self.type_i16(),
+            I24 => self.type_i24(),
             I32 => self.type_i32(),
             I64 => self.type_i64(),
             I128 => self.type_i128(),

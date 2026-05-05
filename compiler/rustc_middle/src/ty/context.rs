@@ -596,12 +596,14 @@ impl<'tcx> Interner for TyCtxt<'tcx> {
                 use ty::IntTy::*;
                 use ty::UintTy::*;
                 // This causes a compiler error if any new integer kinds are added.
-                let (I8 | I16 | I32 | I64 | I128 | Isize): ty::IntTy;
-                let (U8 | U16 | U32 | U64 | U128 | Usize): ty::UintTy;
+                // how kind of you, Michael Goulet!
+                let (I8 | I16 | I24 | I32 | I64 | I128 | Isize): ty::IntTy;
+                let (U8 | U16 | U24 | U32 | U64 | U128 | Usize): ty::UintTy;
                 let possible_integers = [
                     // signed integers
                     ty::SimplifiedType::Int(I8),
                     ty::SimplifiedType::Int(I16),
+                    ty::SimplifiedType::Int(I24),
                     ty::SimplifiedType::Int(I32),
                     ty::SimplifiedType::Int(I64),
                     ty::SimplifiedType::Int(I128),
@@ -609,6 +611,7 @@ impl<'tcx> Interner for TyCtxt<'tcx> {
                     // unsigned integers
                     ty::SimplifiedType::Uint(U8),
                     ty::SimplifiedType::Uint(U16),
+                    ty::SimplifiedType::Uint(U24),
                     ty::SimplifiedType::Uint(U32),
                     ty::SimplifiedType::Uint(U64),
                     ty::SimplifiedType::Uint(U128),
@@ -1124,12 +1127,14 @@ pub struct CommonTypes<'tcx> {
     pub isize: Ty<'tcx>,
     pub i8: Ty<'tcx>,
     pub i16: Ty<'tcx>,
+    pub i24: Ty<'tcx>,
     pub i32: Ty<'tcx>,
     pub i64: Ty<'tcx>,
     pub i128: Ty<'tcx>,
     pub usize: Ty<'tcx>,
     pub u8: Ty<'tcx>,
     pub u16: Ty<'tcx>,
+    pub u24: Ty<'tcx>,
     pub u32: Ty<'tcx>,
     pub u64: Ty<'tcx>,
     pub u128: Ty<'tcx>,
@@ -1227,12 +1232,14 @@ impl<'tcx> CommonTypes<'tcx> {
             isize: mk(Int(ty::IntTy::Isize)),
             i8: mk(Int(ty::IntTy::I8)),
             i16: mk(Int(ty::IntTy::I16)),
+            i24: mk(Int(ty::IntTy::I24)),
             i32: mk(Int(ty::IntTy::I32)),
             i64: mk(Int(ty::IntTy::I64)),
             i128: mk(Int(ty::IntTy::I128)),
             usize: mk(Uint(ty::UintTy::Usize)),
             u8: mk(Uint(ty::UintTy::U8)),
             u16: mk(Uint(ty::UintTy::U16)),
+            u24: mk(Uint(ty::UintTy::U24)),
             u32: mk(Uint(ty::UintTy::U32)),
             u64: mk(Uint(ty::UintTy::U64)),
             u128: mk(Uint(ty::UintTy::U128)),

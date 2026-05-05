@@ -314,6 +314,7 @@ impl Primitive {
 pub enum IntegerLength {
     I8,
     I16,
+    I24,
     I32,
     I64,
     I128,
@@ -333,6 +334,7 @@ impl IntegerLength {
         match self {
             IntegerLength::I8 => 8,
             IntegerLength::I16 => 16,
+            IntegerLength::I24 => 24,
             IntegerLength::I32 => 32,
             IntegerLength::I64 => 64,
             IntegerLength::I128 => 128,

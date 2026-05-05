@@ -146,6 +146,21 @@ pub(crate) fn shift_mask_val<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>>(
     }
 }
 
+fn i24_to_string(mut val: u32) -> String {
+    debug_assert_eq!(val & 0xFF000000, 0);
+
+    let val = if val & 0x800000 > 0 {
+        // negative
+        val = !val;
+        -(val as i32)
+    } else {
+        // positive
+        val as i32
+    };
+
+    val.to_string()
+}
+
 pub fn asm_const_to_str<'tcx>(
     tcx: TyCtxt<'tcx>,
     sp: Span,
@@ -161,6 +176,7 @@ pub fn asm_const_to_str<'tcx>(
         ty::Int(int_ty) => match int_ty.normalize(tcx.sess.target.pointer_width) {
             ty::IntTy::I8 => (value as i8).to_string(),
             ty::IntTy::I16 => (value as i16).to_string(),
+            ty::IntTy::I24 => i24_to_string(value as u32),
             ty::IntTy::I32 => (value as i32).to_string(),
             ty::IntTy::I64 => (value as i64).to_string(),
             ty::IntTy::I128 => (value as i128).to_string(),

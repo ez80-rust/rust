@@ -29,15 +29,17 @@ use crate::ty::{self, CoroutineArgsExt, Ty, TyCtxt, TypeVisitableExt};
 impl abi::Integer {
     #[inline]
     fn to_ty<'tcx>(&self, tcx: TyCtxt<'tcx>, signed: bool) -> Ty<'tcx> {
-        use abi::Integer::{I8, I16, I32, I64, I128};
+        use abi::Integer::*;
         match (*self, signed) {
             (I8, false) => tcx.types.u8,
             (I16, false) => tcx.types.u16,
+            (I24, false) => tcx.types.u24,
             (I32, false) => tcx.types.u32,
             (I64, false) => tcx.types.u64,
             (I128, false) => tcx.types.u128,
             (I8, true) => tcx.types.i8,
             (I16, true) => tcx.types.i16,
+            (I24, true) => tcx.types.i24,
             (I32, true) => tcx.types.i32,
             (I64, true) => tcx.types.i64,
             (I128, true) => tcx.types.i128,
@@ -45,10 +47,11 @@ impl abi::Integer {
     }
 
     fn from_int_ty<C: HasDataLayout>(cx: &C, ity: ty::IntTy) -> abi::Integer {
-        use abi::Integer::{I8, I16, I32, I64, I128};
+        use abi::Integer::*;
         match ity {
             ty::IntTy::I8 => I8,
             ty::IntTy::I16 => I16,
+            ty::IntTy::I24 => I24,
             ty::IntTy::I32 => I32,
             ty::IntTy::I64 => I64,
             ty::IntTy::I128 => I128,
@@ -56,10 +59,11 @@ impl abi::Integer {
         }
     }
     fn from_uint_ty<C: HasDataLayout>(cx: &C, ity: ty::UintTy) -> abi::Integer {
-        use abi::Integer::{I8, I16, I32, I64, I128};
+        use abi::Integer::*;
         match ity {
             ty::UintTy::U8 => I8,
             ty::UintTy::U16 => I16,
+            ty::UintTy::U24 => I24,
             ty::UintTy::U32 => I32,
             ty::UintTy::U64 => I64,
             ty::UintTy::U128 => I128,

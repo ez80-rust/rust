@@ -330,6 +330,7 @@ impl<'tcx> Stable<'tcx> for rustc_abi::Integer {
         match self {
             rustc_abi::Integer::I8 => IntegerLength::I8,
             rustc_abi::Integer::I16 => IntegerLength::I16,
+            rustc_abi::Integer::I24 => IntegerLength::I24,
             rustc_abi::Integer::I32 => IntegerLength::I32,
             rustc_abi::Integer::I64 => IntegerLength::I64,
             rustc_abi::Integer::I128 => IntegerLength::I128,

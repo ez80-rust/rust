@@ -90,6 +90,7 @@ impl<'ll, 'tcx> CodegenCx<'ll, 'tcx> {
             ty::IntTy::Isize => self.type_isize(),
             ty::IntTy::I8 => self.type_i8(),
             ty::IntTy::I16 => self.type_i16(),
+            ty::IntTy::I24 => self.type_i24(),
             ty::IntTy::I32 => self.type_i32(),
             ty::IntTy::I64 => self.type_i64(),
             ty::IntTy::I128 => self.type_i128(),
@@ -101,6 +102,7 @@ impl<'ll, 'tcx> CodegenCx<'ll, 'tcx> {
             ty::UintTy::Usize => self.type_isize(),
             ty::UintTy::U8 => self.type_i8(),
             ty::UintTy::U16 => self.type_i16(),
+            ty::UintTy::U24 => self.type_i24(),
             ty::UintTy::U32 => self.type_i32(),
             ty::UintTy::U64 => self.type_i64(),
             ty::UintTy::U128 => self.type_i128(),
@@ -167,6 +169,10 @@ impl<'ll, CX: Borrow<SCx<'ll>>> BaseTypeCodegenMethods for GenericCx<'ll, CX> {
 
     fn type_i16(&self) -> &'ll Type {
         unsafe { llvm::LLVMInt16TypeInContext(self.llcx()) }
+    }
+
+    fn type_i24(&self) -> &'ll Type {
+        unsafe { llvm::LLVMIntTypeInContext(self.llcx(), 24) }
     }
 
     fn type_i32(&self) -> &'ll Type {

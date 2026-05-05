@@ -245,6 +245,8 @@ pub struct TargetDataLayout {
     pub i1_align: AbiAlign,
     pub i8_align: AbiAlign,
     pub i16_align: AbiAlign,
+    /// Not in the data layout string, placed here just in case alignment matters for some future target
+    pub i24_align: AbiAlign,
     pub i32_align: AbiAlign,
     pub i64_align: AbiAlign,
     pub i128_align: AbiAlign,
@@ -285,6 +287,8 @@ impl Default for TargetDataLayout {
             i1_align: AbiAlign::new(align(8)),
             i8_align: AbiAlign::new(align(8)),
             i16_align: AbiAlign::new(align(16)),
+            // eZ80 places no requirements on the alignment of anything; use one-byte alignment since this won't be overwritten when parsed
+            i24_align: AbiAlign::new(align(8)),
             i32_align: AbiAlign::new(align(32)),
             i64_align: AbiAlign::new(align(32)),
             i128_align: AbiAlign::new(align(32)),
@@ -1131,6 +1135,7 @@ impl Deref for AbiAlign {
 pub enum Integer {
     I8,
     I16,
+    I24,
     I32,
     I64,
     I128,
@@ -1142,6 +1147,7 @@ impl Integer {
         match self {
             I8 => "i8",
             I16 => "i16",
+            I24 => "i24",
             I32 => "i32",
             I64 => "i64",
             I128 => "i128",
@@ -1153,6 +1159,7 @@ impl Integer {
         match self {
             I8 => "u8",
             I16 => "u16",
+            I24 => "u24",
             I32 => "u32",
             I64 => "u64",
             I128 => "u128",
@@ -1165,6 +1172,7 @@ impl Integer {
         match self {
             I8 => Size::from_bytes(1),
             I16 => Size::from_bytes(2),
+            I24 => Size::from_bytes(3),
             I32 => Size::from_bytes(4),
             I64 => Size::from_bytes(8),
             I128 => Size::from_bytes(16),
@@ -1188,6 +1196,7 @@ impl Integer {
         match self {
             I8 => dl.i8_align,
             I16 => dl.i16_align,
+            I24 => dl.i24_align,
             I32 => dl.i32_align,
             I64 => dl.i64_align,
             I128 => dl.i128_align,
@@ -1201,6 +1210,7 @@ impl Integer {
         match self {
             I8 => i8::MAX as i128,
             I16 => i16::MAX as i128,
+            I24 => 8388607,
             I32 => i32::MAX as i128,
             I64 => i64::MAX as i128,
             I128 => i128::MAX,
@@ -1214,6 +1224,7 @@ impl Integer {
         match self {
             I8 => i8::MIN as i128,
             I16 => i16::MIN as i128,
+            I24 => -8388608,
             I32 => i32::MIN as i128,
             I64 => i64::MIN as i128,
             I128 => i128::MIN,
@@ -1227,6 +1238,7 @@ impl Integer {
         match x {
             -0x0000_0000_0000_0080..=0x0000_0000_0000_007f => I8,
             -0x0000_0000_0000_8000..=0x0000_0000_0000_7fff => I16,
+            -0x0000_0000_0080_0000..=0x0000_0000_007f_ffff => I24,
             -0x0000_0000_8000_0000..=0x0000_0000_7fff_ffff => I32,
             -0x8000_0000_0000_0000..=0x7fff_ffff_ffff_ffff => I64,
             _ => I128,
@@ -1240,6 +1252,7 @@ impl Integer {
         match x {
             0..=0x0000_0000_0000_00ff => I8,
             0..=0x0000_0000_0000_ffff => I16,
+            0..=0x0000_0000_00ff_ffff => I24,
             0..=0x0000_0000_ffff_ffff => I32,
             0..=0xffff_ffff_ffff_ffff => I64,
             _ => I128,
@@ -1251,7 +1264,7 @@ impl Integer {
         use Integer::*;
         let dl = cx.data_layout();
 
-        [I8, I16, I32, I64, I128].into_iter().find(|&candidate| {
+        [I8, I16, I24, I32, I64, I128].into_iter().find(|&candidate| {
             wanted == candidate.align(dl).abi && wanted.bytes() == candidate.size().bytes()
         })
     }
@@ -1262,7 +1275,7 @@ impl Integer {
         let dl = cx.data_layout();
 
         // FIXME(eddyb) maybe include I128 in the future, when it works everywhere.
-        for candidate in [I64, I32, I16] {
+        for candidate in [I64, I32, I24, I16] {
             if wanted >= candidate.align(dl).abi && wanted.bytes() >= candidate.size().bytes() {
                 return candidate;
             }
@@ -1277,6 +1290,7 @@ impl Integer {
         match size.bits() {
             8 => Ok(Integer::I8),
             16 => Ok(Integer::I16),
+            24 => Ok(Integer::I24),
             32 => Ok(Integer::I32),
             64 => Ok(Integer::I64),
             128 => Ok(Integer::I128),

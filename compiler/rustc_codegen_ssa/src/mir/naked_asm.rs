@@ -411,7 +411,7 @@ fn wasm_type<'tcx>(signature: &mut String, arg_abi: &ArgAbi<'_, Ty<'tcx>>, ptr_t
 fn wasm_primitive(primitive: Primitive, ptr_type: &'static str) -> &'static str {
     match primitive {
         Primitive::Int(integer, _) => match integer {
-            Integer::I8 | Integer::I16 | Integer::I32 => "i32",
+            Integer::I8 | Integer::I16 | Integer::I24 | Integer::I32 => "i32",
             Integer::I64 => "i64",
             Integer::I128 => "i64, i64",
         },
