@@ -1884,7 +1884,7 @@ mod impls {
     }
 
     partial_eq_impl! {
-        bool char usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128 f16 f32 f64 f128
+        bool char usize u8 u16 u24 u32 u64 u128 isize i8 i16 i24 i32 i64 i128 f16 f32 f64 f128
     }
 
     macro_rules! eq_impl {
@@ -1895,7 +1895,7 @@ mod impls {
         )*)
     }
 
-    eq_impl! { () bool char usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128 }
+    eq_impl! { () bool char usize u8 u16 u24 u32 u64 u128 isize i8 i16 i24 i32 i64 i128 }
 
     #[rustfmt::skip]
     macro_rules! partial_ord_methods_primitive_impl {
@@ -2045,7 +2045,7 @@ mod impls {
         }
     }
 
-    ord_impl! { char usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128 }
+    ord_impl! { char usize u8 u16 u24 u32 u64 u128 isize i8 i16 i24 i32 i64 i128 }
 
     #[unstable(feature = "never_type", issue = "35121")]
     #[rustc_const_unstable(feature = "const_cmp", issue = "143800")]

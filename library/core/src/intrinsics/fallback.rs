@@ -34,11 +34,13 @@ macro_rules! impl_carrying_mul_add_by_widening {
 impl_carrying_mul_add_by_widening! {
     u8 u8 u16,
     u16 u16 u32,
+    u24 u24 u64,
     u32 u32 u64,
     u64 u64 u128,
     usize usize UDoubleSize,
     i8 u8 i16,
     i16 u16 i32,
+    i24 u24 i64,
     i32 u32 i64,
     i64 u64 i128,
     isize usize UDoubleSize,
@@ -46,7 +48,7 @@ impl_carrying_mul_add_by_widening! {
 
 #[cfg(target_pointer_width = "16")]
 type UDoubleSize = u32;
-// hopefully close enough
+// large enough to fit u24::MAX squared, so good enough
 #[cfg(target_pointer_width = "24")]
 type UDoubleSize = u64;
 #[cfg(target_pointer_width = "32")]
@@ -146,8 +148,8 @@ macro_rules! impl_disjoint_bitor {
 }
 impl_disjoint_bitor! {
     bool,
-    u8, u16, u32, u64, u128, usize,
-    i8, i16, i32, i64, i128, isize,
+    u8, u16, u24, u32, u64, u128, usize,
+    i8, i16, i24, i32, i64, i128, isize,
 }
 
 #[rustc_const_unstable(feature = "core_intrinsics_fallbacks", issue = "none")]
@@ -219,5 +221,5 @@ macro_rules! impl_funnel_shifts {
 }
 
 impl_funnel_shifts! {
-    u8, u16, u32, u64, u128, usize
+    u8, u16, u24, u32, u64, u128, usize
 }

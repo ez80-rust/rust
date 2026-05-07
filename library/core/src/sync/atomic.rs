@@ -306,6 +306,8 @@ impl_atomic_primitive!(AtomicU128(u128), size("128"), align(16));
 
 #[cfg(target_pointer_width = "16")]
 impl_atomic_primitive!(AtomicIsize(isize), size("ptr"), align(2));
+#[cfg(target_pointer_width = "24")]
+impl_atomic_primitive!(AtomicIsize(isize), size("ptr"), align(1));
 #[cfg(target_pointer_width = "32")]
 impl_atomic_primitive!(AtomicIsize(isize), size("ptr"), align(4));
 #[cfg(target_pointer_width = "64")]
@@ -313,6 +315,8 @@ impl_atomic_primitive!(AtomicIsize(isize), size("ptr"), align(8));
 
 #[cfg(target_pointer_width = "16")]
 impl_atomic_primitive!(AtomicUsize(usize), size("ptr"), align(2));
+#[cfg(target_pointer_width = "24")]
+impl_atomic_primitive!(AtomicUsize(usize), size("ptr"), align(1));
 #[cfg(target_pointer_width = "32")]
 impl_atomic_primitive!(AtomicUsize(usize), size("ptr"), align(4));
 #[cfg(target_pointer_width = "64")]
@@ -320,6 +324,8 @@ impl_atomic_primitive!(AtomicUsize(usize), size("ptr"), align(8));
 
 #[cfg(target_pointer_width = "16")]
 impl_atomic_primitive!(AtomicPtr<T>(*mut T), size("ptr"), align(2));
+#[cfg(target_pointer_width = "24")]
+impl_atomic_primitive!(AtomicPtr<T>(*mut T), size("ptr"), align(1));
 #[cfg(target_pointer_width = "32")]
 impl_atomic_primitive!(AtomicPtr<T>(*mut T), size("ptr"), align(4));
 #[cfg(target_pointer_width = "64")]
@@ -3910,6 +3916,7 @@ macro_rules! atomic_int_ptr_sized {
 #[cfg(target_has_atomic_load_store = "ptr")]
 atomic_int_ptr_sized! {
     "16" 2
+    "24" 1
     "32" 4
     "64" 8
 }

@@ -486,7 +486,3 @@ dependencies = [
  "rustc-std-workspace-alloc",
  "rustc-std-workspace-core",
 ]
-
-[[patch.unused]]
-name = "cc"
-version = "1.2.16"

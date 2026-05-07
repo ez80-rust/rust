@@ -56,8 +56,8 @@ macro_rules! impl_range_pat {
 }
 
 impl_range_pat! {
-    i8, i16, i32, i64, i128, isize,
-    u8, u16, u32, u64, u128, usize,
+    i8, i16, i24, i32, i64, i128, isize,
+    u8, u16, u24, u32, u64, u128, usize,
 }
 
 #[rustc_const_unstable(feature = "pattern_type_range_trait", issue = "123646")]

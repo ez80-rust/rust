@@ -3152,11 +3152,13 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                     | sym::i64
                     | sym::i32
                     | sym::i16
+                    | sym::i24
                     | sym::i8
                     | sym::u128
                     | sym::u64
                     | sym::u32
                     | sym::u16
+                    | sym::u24
                     | sym::u8
                     | sym::isize
                     | sym::usize

@@ -69,12 +69,14 @@ macro_rules! impl_zeroable_primitive {
 impl_zeroable_primitive!(
     NonZeroU8Inner(u8),
     NonZeroU16Inner(u16),
+    NonZeroU24Inner(u24),
     NonZeroU32Inner(u32),
     NonZeroU64Inner(u64),
     NonZeroU128Inner(u128),
     NonZeroUsizeInner(usize),
     NonZeroI8Inner(i8),
     NonZeroI16Inner(i16),
+    NonZeroI24Inner(i24),
     NonZeroI32Inner(i32),
     NonZeroI64Inner(i64),
     NonZeroI128Inner(i128),
@@ -2228,6 +2230,18 @@ nonzero_integer! {
 }
 
 nonzero_integer! {
+    Self = NonZeroU24,
+    Primitive = unsigned u24,
+    SignedPrimitive = i24,
+    rot = 6,
+    rot_op = "0x6bedc2",
+    rot_result = "0xfb709a",
+    swap_op = "0x123456",
+    swapped = "0x563412",
+    reversed = "0xd4589",
+}
+
+nonzero_integer! {
     Self = NonZeroU32,
     Primitive = unsigned u32,
     SignedPrimitive = i32,
@@ -2274,6 +2288,19 @@ nonzero_integer! {
     swap_op = "0x1234",
     swapped = "0x3412",
     reversed = "0x2c48",
+}
+
+#[cfg(target_pointer_width = "24")]
+nonzero_integer! {
+    Self = NonZeroUsize,
+    Primitive = unsigned usize,
+    SignedPrimitive = isize,
+    rot = 6,
+    rot_op = "0x6bedc2",
+    rot_result = "0xfb709a",
+    swap_op = "0x123456",
+    swapped = "0x563412",
+    reversed = "0xd4589",
 }
 
 #[cfg(target_pointer_width = "32")]
@@ -2327,6 +2354,18 @@ nonzero_integer! {
 }
 
 nonzero_integer! {
+    Self = NonZeroI24,
+    Primitive = signed i24,
+    UnsignedPrimitive = u24,
+    rot = 6,
+    rot_op = "-0x5ffdab",
+    rot_result = "0x9568",
+    swap_op = "0x123456",
+    swapped = "0x563412",
+    reversed = "0xd4589",
+}
+
+nonzero_integer! {
     Self = NonZeroI32,
     Primitive = signed i32,
     UnsignedPrimitive = u32,
@@ -2373,6 +2412,19 @@ nonzero_integer! {
     swap_op = "0x1234",
     swapped = "0x3412",
     reversed = "0x2c48",
+}
+
+#[cfg(target_pointer_width = "24")]
+nonzero_integer! {
+    Self = NonZeroIsize,
+    Primitive = signed isize,
+    UnsignedPrimitive = usize,
+    rot = 6,
+    rot_op = "-0x5ffdab",
+    rot_result = "0x9568",
+    swap_op = "0x123456",
+    swapped = "0x563412",
+    reversed = "0xd4589",
 }
 
 #[cfg(target_pointer_width = "32")]

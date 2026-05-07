@@ -305,8 +305,8 @@ macro_rules! impl_use_cloned {
 }
 
 impl_use_cloned! {
-    usize u8 u16 u32 u64 u128
-    isize i8 i16 i32 i64 i128
+    usize u8 u16 u24 u32 u64 u128
+    isize i8 i16 i24 i32 i64 i128
              f16 f32 f64 f128
     bool char
 }
@@ -586,8 +586,8 @@ mod impls {
     }
 
     impl_clone! {
-        usize u8 u16 u32 u64 u128
-        isize i8 i16 i32 i64 i128
+        usize u8 u16 u24 u32 u64 u128
+        isize i8 i16 i24 i32 i64 i128
         f16 f32 f64 f128
         bool char
     }

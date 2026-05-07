@@ -122,12 +122,14 @@ impl Default for Nanoseconds {
 define_valid_range_type! {
     pub struct NonZeroU8Inner(u8 as u8 in 1..=0xff);
     pub struct NonZeroU16Inner(u16 as u16 in 1..=0xff_ff);
+    pub struct NonZeroU24Inner(u24 as u24 in 1..=0xff_ffff);
     pub struct NonZeroU32Inner(u32 as u32 in 1..=0xffff_ffff);
     pub struct NonZeroU64Inner(u64 as u64 in 1..=0xffffffff_ffffffff);
     pub struct NonZeroU128Inner(u128 as u128 in 1..=0xffffffffffffffff_ffffffffffffffff);
 
     pub struct NonZeroI8Inner(i8 as u8 in 1..=0xff);
     pub struct NonZeroI16Inner(i16 as u16 in 1..=0xff_ff);
+    pub struct NonZeroI24Inner(i24 as u24 in 1..=0xff_ffff);
     pub struct NonZeroI32Inner(i32 as u32 in 1..=0xffff_ffff);
     pub struct NonZeroI64Inner(i64 as u64 in 1..=0xffffffff_ffffffff);
     pub struct NonZeroI128Inner(i128 as u128 in 1..=0xffffffffffffffff_ffffffffffffffff);
@@ -140,6 +142,12 @@ define_valid_range_type! {
     pub struct UsizeNoHighBit(usize as usize in 0..=0x7fff);
     pub struct NonZeroUsizeInner(usize as usize in 1..=0xffff);
     pub struct NonZeroIsizeInner(isize as usize in 1..=0xffff);
+}
+#[cfg(target_pointer_width = "24")]
+define_valid_range_type! {
+    pub struct UsizeNoHighBit(usize as usize in 0..=0x7f_ffff);
+    pub struct NonZeroUsizeInner(usize as usize in 1..=0xff_ffff);
+    pub struct NonZeroIsizeInner(isize as usize in 1..=0xff_ffff);
 }
 #[cfg(target_pointer_width = "32")]
 define_valid_range_type! {
@@ -155,6 +163,9 @@ define_valid_range_type! {
 }
 
 define_valid_range_type! {
+    pub struct U24NotAllOnes(u24 as u24 in 0..=0xff_fffe);
+    pub struct I24NotAllOnes(i24 as u24 in 0..=0xff_fffe);
+
     pub struct U32NotAllOnes(u32 as u32 in 0..=0xffff_fffe);
     pub struct I32NotAllOnes(i32 as u32 in 0..=0xffff_fffe);
 
@@ -171,6 +182,12 @@ impl NotAllOnesHelper for u32 {
 }
 impl NotAllOnesHelper for i32 {
     type Type = I32NotAllOnes;
+}
+impl NotAllOnesHelper for u24 {
+    type Type = U24NotAllOnes;
+}
+impl NotAllOnesHelper for i24 {
+    type Type = I24NotAllOnes;
 }
 impl NotAllOnesHelper for u64 {
     type Type = U64NotAllOnes;

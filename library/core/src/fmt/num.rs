@@ -72,6 +72,7 @@ macro_rules! radix_integers {
 radix_integers! { isize, usize }
 radix_integers! { i8, u8 }
 radix_integers! { i16, u16 }
+radix_integers! { i24, u24 }
 radix_integers! { i32, u32 }
 radix_integers! { i64, u64 }
 radix_integers! { i128, u128 }
@@ -587,8 +588,8 @@ macro_rules! impl_Exp {
 }
 
 impl_Debug! {
-    i8 i16 i32 i64 i128 isize
-    u8 u16 u32 u64 u128 usize
+    i8 i16 i24 i32 i64 i128 isize
+    u8 u16 u24 u32 u64 u128 usize
 }
 
 // Include wasm32 in here since it doesn't reflect the native pointer size, and
@@ -603,10 +604,10 @@ mod imp {
 #[cfg(not(any(target_pointer_width = "64", target_arch = "wasm32")))]
 mod imp {
     use super::*;
-    impl_Display!(i8, u8, i16, u16, i32, u32, isize, usize; as u32 into display_u32);
+    impl_Display!(i8, u8, i16, u16, i24, u24, i32, u32, isize, usize; as u32 into display_u32);
     impl_Display!(i64, u64; as u64 into display_u64);
 
-    impl_Exp!(i8, u8, i16, u16, i32, u32, isize, usize; as u32 into exp_u32);
+    impl_Exp!(i8, u8, i16, u16, i24, u24, i32, u32, isize, usize; as u32 into exp_u32);
     impl_Exp!(i64, u64; as u64 into exp_u64);
 }
 impl_Exp!(i128, u128; as u128 into exp_u128);

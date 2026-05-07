@@ -679,6 +679,11 @@ pub fn std_cargo(builder: &Builder<'_>, target: TargetSelection, cargo: &mut Car
     cargo.rustdocflag(&html_root);
 
     cargo.rustdocflag("-Zcrate-attr=warn(rust_2018_idioms)");
+
+    // cargo.rustflag("-Ccodegen-units=10000");
+    // cargo.rustflag("--emit=llvm-ir");
+
+    // println!("set flags 1");
 }
 
 /// Link all libstd rlibs/dylibs into a sysroot of `target_compiler`.

@@ -1415,6 +1415,12 @@ mod prim_i8 {}
 #[stable(feature = "rust1", since = "1.0.0")]
 mod prim_i16 {}
 
+#[rustc_doc_primitive = "i24"]
+//
+/// The 24-bit signed integer type.
+#[stable(feature = "rust1", since = "1.0.0")]
+mod prim_i24 {}
+
 #[rustc_doc_primitive = "i32"]
 //
 /// The 32-bit signed integer type.
@@ -1456,6 +1462,12 @@ mod prim_u8 {}
 /// The 16-bit unsigned integer type.
 #[stable(feature = "rust1", since = "1.0.0")]
 mod prim_u16 {}
+
+#[rustc_doc_primitive = "u24"]
+//
+/// The 24-bit unsigned integer type.
+#[stable(feature = "rust1", since = "1.0.0")]
+mod prim_u24 {}
 
 #[rustc_doc_primitive = "u32"]
 //

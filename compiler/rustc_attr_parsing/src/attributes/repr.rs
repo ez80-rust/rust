@@ -67,6 +67,8 @@ macro_rules! int_pat {
             | sym::u8
             | sym::i16
             | sym::u16
+            | sym::i24
+            | sym::u24
             | sym::i32
             | sym::u32
             | sym::i64

@@ -2545,11 +2545,13 @@ impl TyKind {
             ty_sym,
             sym::i8
                 | sym::i16
+                | sym::i24
                 | sym::i32
                 | sym::i64
                 | sym::i128
                 | sym::u8
                 | sym::u16
+                | sym::u24
                 | sym::u32
                 | sym::u64
                 | sym::u128

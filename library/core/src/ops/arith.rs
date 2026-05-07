@@ -111,7 +111,7 @@ macro_rules! add_impl {
     )*)
 }
 
-add_impl! { usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128 f16 f32 f64 f128 }
+add_impl! { usize u8 u16 u24 u32 u64 u128 isize i8 i16 i24 i32 i64 i128 f16 f32 f64 f128 }
 
 /// The subtraction operator `-`.
 ///
@@ -224,7 +224,7 @@ macro_rules! sub_impl {
     )*)
 }
 
-sub_impl! { usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128 f16 f32 f64 f128 }
+sub_impl! { usize u8 u16 u24 u32 u64 u128 isize i8 i16 i24 i32 i64 i128 f16 f32 f64 f128 }
 
 /// The multiplication operator `*`.
 ///
@@ -358,7 +358,7 @@ macro_rules! mul_impl {
     )*)
 }
 
-mul_impl! { usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128 f16 f32 f64 f128 }
+mul_impl! { usize u8 u16 u24 u32 u64 u128 isize i8 i16 i24 i32 i64 i128 f16 f32 f64 f128 }
 
 /// The division operator `/`.
 ///
@@ -502,8 +502,8 @@ macro_rules! div_impl_integer {
 }
 
 div_impl_integer! {
-    (usize u8 u16 u32 u64 u128) => "This operation will panic if `other == 0`.",
-    (isize i8 i16 i32 i64 i128) => "This operation will panic if `other == 0` or the division results in overflow."
+    (usize u8 u16 u24 u32 u64 u128) => "This operation will panic if `other == 0`.",
+    (isize i8 i16 i24 i32 i64 i128) => "This operation will panic if `other == 0` or the division results in overflow."
 }
 
 macro_rules! div_impl_float {
@@ -611,8 +611,8 @@ macro_rules! rem_impl_integer {
 }
 
 rem_impl_integer! {
-    (usize u8 u16 u32 u64 u128) => "This operation will panic if `other == 0`.",
-    (isize i8 i16 i32 i64 i128) => "This operation will panic if `other == 0` or if `self / other` results in overflow."
+    (usize u8 u16 u24 u32 u64 u128) => "This operation will panic if `other == 0`.",
+    (isize i8 i16 i24 i32 i64 i128) => "This operation will panic if `other == 0` or if `self / other` results in overflow."
 }
 
 macro_rules! rem_impl_float {
@@ -726,7 +726,7 @@ macro_rules! neg_impl {
     )*)
 }
 
-neg_impl! { isize i8 i16 i32 i64 i128 f16 f32 f64 f128 }
+neg_impl! { isize i8 i16 i24 i32 i64 i128 f16 f32 f64 f128 }
 
 /// The addition assignment operator `+=`.
 ///
@@ -797,7 +797,7 @@ macro_rules! add_assign_impl {
     )+)
 }
 
-add_assign_impl! { usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128 f16 f32 f64 f128 }
+add_assign_impl! { usize u8 u16 u24 u32 u64 u128 isize i8 i16 i24 i32 i64 i128 f16 f32 f64 f128 }
 
 /// The subtraction assignment operator `-=`.
 ///
@@ -868,7 +868,7 @@ macro_rules! sub_assign_impl {
     )+)
 }
 
-sub_assign_impl! { usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128 f16 f32 f64 f128 }
+sub_assign_impl! { usize u8 u16 u24 u32 u64 u128 isize i8 i16 i24 i32 i64 i128 f16 f32 f64 f128 }
 
 /// The multiplication assignment operator `*=`.
 ///
@@ -930,7 +930,7 @@ macro_rules! mul_assign_impl {
     )+)
 }
 
-mul_assign_impl! { usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128 f16 f32 f64 f128 }
+mul_assign_impl! { usize u8 u16 u24 u32 u64 u128 isize i8 i16 i24 i32 i64 i128 f16 f32 f64 f128 }
 
 /// The division assignment operator `/=`.
 ///
@@ -991,7 +991,7 @@ macro_rules! div_assign_impl {
     )+)
 }
 
-div_assign_impl! { usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128 f16 f32 f64 f128 }
+div_assign_impl! { usize u8 u16 u24 u32 u64 u128 isize i8 i16 i24 i32 i64 i128 f16 f32 f64 f128 }
 
 /// The remainder assignment operator `%=`.
 ///
@@ -1056,4 +1056,4 @@ macro_rules! rem_assign_impl {
     )+)
 }
 
-rem_assign_impl! { usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128 f16 f32 f64 f128 }
+rem_assign_impl! { usize u8 u16 u24 u32 u64 u128 isize i8 i16 i24 i32 i64 i128 f16 f32 f64 f128 }

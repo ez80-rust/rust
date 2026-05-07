@@ -2542,8 +2542,8 @@ impl<'ast, 'ra, 'tcx> LateResolutionVisitor<'_, 'ast, 'ra, 'tcx> {
             "Bool" => sym::bool,
             "Boolean" => sym::bool,
             "boolean" => sym::bool,
-            "int" => sym::i32,
-            "long" => sym::i64,
+            "int" => sym::i24, // normally i24, but with this mildly cursed compiler i24 fits better
+            "long" => sym::i32, // see above, normally i64 but weird in this compiler
             "float" => sym::f32,
             "double" => sym::f64,
             _ => return None,

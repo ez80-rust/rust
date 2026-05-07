@@ -102,4 +102,8 @@ flake.lock
 # Large binary files
 CEdev/
 
+/*.log
+/*.ll
+/test*.rs
+
 # Before adding new lines, see the comment at the top.

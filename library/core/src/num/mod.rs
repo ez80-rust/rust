@@ -74,9 +74,9 @@ pub use nonzero::NonZero;
 )]
 pub use nonzero::ZeroablePrimitive;
 #[stable(feature = "signed_nonzero", since = "1.34.0")]
-pub use nonzero::{NonZeroI8, NonZeroI16, NonZeroI32, NonZeroI64, NonZeroI128, NonZeroIsize};
+pub use nonzero::{NonZeroI8, NonZeroI16, NonZeroI24, NonZeroI32, NonZeroI64, NonZeroI128, NonZeroIsize};
 #[stable(feature = "nonzero", since = "1.28.0")]
-pub use nonzero::{NonZeroU8, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU128, NonZeroUsize};
+pub use nonzero::{NonZeroU8, NonZeroU16, NonZeroU24, NonZeroU32, NonZeroU64, NonZeroU128, NonZeroUsize};
 #[stable(feature = "saturating_int_impl", since = "1.74.0")]
 pub use saturating::Saturating;
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -111,7 +111,7 @@ macro_rules! usize_isize_to_xe_bytes_doc {
     () => {
         "
 
-**Note**: This function returns an array of length 2, 4 or 8 bytes
+**Note**: This function returns an array of length 2, 3, 4 or 8 bytes
 depending on the target pointer size.
 
 "
@@ -122,7 +122,7 @@ macro_rules! usize_isize_from_xe_bytes_doc {
     () => {
         "
 
-**Note**: This function takes an array of length 2, 4 or 8 bytes
+**Note**: This function takes an array of length 2, 3, 4 or 8 bytes
 depending on the target pointer size.
 
 "
@@ -291,6 +291,30 @@ impl i16 {
     midpoint_impl! { i16, i32, signed }
 }
 
+impl i24 {
+    int_impl! {
+        Self = i24,
+        ActualT = i24,
+        UnsignedT = u24,
+        BITS = 24,
+        BITS_MINUS_ONE = 23,
+        Min = -8388608,
+        Max = 8388607,
+        rot = 6,
+        rot_op = "-0x5ffdab",
+        rot_result = "0x9568",
+        swap_op = "0x123456",
+        swapped = "0x563412",
+        reversed = "0xd4589",
+        le_bytes = "[0x56, 0x34, 0x12]",
+        be_bytes = "[0x12, 0x34, 0x56]",
+        to_xe_bytes_doc = "",
+        from_xe_bytes_doc = "",
+        bound_condition = "",
+    }
+    midpoint_impl! { i24, i32, signed }
+}
+
 impl i32 {
     int_impl! {
         Self = i32,
@@ -386,6 +410,31 @@ impl isize {
         to_xe_bytes_doc = usize_isize_to_xe_bytes_doc!(),
         from_xe_bytes_doc = usize_isize_from_xe_bytes_doc!(),
         bound_condition = " on 16-bit targets",
+    }
+    midpoint_impl! { isize, i32, signed }
+}
+
+#[cfg(target_pointer_width = "24")]
+impl isize {
+    int_impl! {
+        Self = isize,
+        ActualT = i24,
+        UnsignedT = usize,
+        BITS = 24,
+        BITS_MINUS_ONE = 23,
+        Min = -8388608,
+        Max = 8388607,
+        rot = 6,
+        rot_op = "-0x5ffdab",
+        rot_result = "0x9568",
+        swap_op = "0x123456",
+        swapped = "0x563412",
+        reversed = "0xd4589",
+        le_bytes = "[0x56, 0x34, 0x12]",
+        be_bytes = "[0x12, 0x34, 0x56]",
+        to_xe_bytes_doc = usize_isize_to_xe_bytes_doc!(),
+        from_xe_bytes_doc = usize_isize_from_xe_bytes_doc!(),
+        bound_condition = " on 24-bit targets",
     }
     midpoint_impl! { isize, i32, signed }
 }
@@ -1130,6 +1179,32 @@ impl u16 {
     }
 }
 
+impl u24 {
+    uint_impl! {
+        Self = u24,
+        ActualT = u24,
+        SignedT = i24,
+        BITS = 24,
+        BITS_MINUS_ONE = 23,
+        MAX = 16777215,
+        rot = 6,
+        rot_op = "0x6bedc2",
+        rot_result = "0xfb709a",
+        fsh_op = "0x44",
+        fshl_result = "0xb32f",
+        fshr_result = "0xf8cbc0",
+        swap_op = "0x123456",
+        swapped = "0x563412",
+        reversed = "0xd4589",
+        le_bytes = "[0x56, 0x34, 0x12]",
+        be_bytes = "[0x12, 0x34, 0x56]",
+        to_xe_bytes_doc = "",
+        from_xe_bytes_doc = "",
+        bound_condition = "",
+    }
+    midpoint_impl! { u24, u32, unsigned }
+}
+
 impl u32 {
     uint_impl! {
         Self = u32,
@@ -1233,6 +1308,33 @@ impl usize {
         to_xe_bytes_doc = usize_isize_to_xe_bytes_doc!(),
         from_xe_bytes_doc = usize_isize_from_xe_bytes_doc!(),
         bound_condition = " on 16-bit targets",
+    }
+    midpoint_impl! { usize, u32, unsigned }
+}
+
+#[cfg(target_pointer_width = "24")]
+impl usize {
+    uint_impl! {
+        Self = usize,
+        ActualT = u24,
+        SignedT = isize,
+        BITS = 24,
+        BITS_MINUS_ONE = 23,
+        MAX = 16777215,
+        rot = 6,
+        rot_op = "0x6bedc2",
+        rot_result = "0xfb709a",
+        fsh_op = "0x44",
+        fshl_result = "0xb32f",
+        fshr_result = "0xf8cbc0",
+        swap_op = "0x123456",
+        swapped = "0x563412",
+        reversed = "0xd4589",
+        le_bytes = "[0x56, 0x34, 0x12]",
+        be_bytes = "[0x12, 0x34, 0x56]",
+        to_xe_bytes_doc = usize_isize_to_xe_bytes_doc!(),
+        from_xe_bytes_doc = usize_isize_from_xe_bytes_doc!(),
+        bound_condition = " on 24-bit targets",
     }
     midpoint_impl! { usize, u32, unsigned }
 }
@@ -1651,5 +1753,5 @@ macro_rules! from_str_int_impl {
     )*}
 }
 
-from_str_int_impl! { signed isize i8 i16 i32 i64 i128 }
-from_str_int_impl! { unsigned usize u8 u16 u32 u64 u128 }
+from_str_int_impl! { signed isize i8 i16 i24 i32 i64 i128 }
+from_str_int_impl! { unsigned usize u8 u16 u24 u32 u64 u128 }

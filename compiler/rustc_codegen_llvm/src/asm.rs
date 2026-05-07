@@ -881,6 +881,7 @@ fn llvm_asm_scalar_type<'ll>(cx: &CodegenCx<'ll, '_>, scalar: Scalar) -> &'ll Ty
     match scalar.primitive() {
         Primitive::Int(Integer::I8, _) => cx.type_i8(),
         Primitive::Int(Integer::I16, _) => cx.type_i16(),
+        Primitive::Int(Integer::I24, _) => cx.type_i24(),
         Primitive::Int(Integer::I32, _) => cx.type_i32(),
         Primitive::Int(Integer::I64, _) => cx.type_i64(),
         Primitive::Float(Float::F16) => cx.type_f16(),

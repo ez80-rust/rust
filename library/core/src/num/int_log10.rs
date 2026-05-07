@@ -49,6 +49,17 @@ pub(super) const fn u16(val: u16) -> u32 {
     less_than_5(val as u32)
 }
 
+// 0 < val <= u24::MAX
+#[inline]
+pub(super) const fn u24(mut val: u24) -> u32 {
+    let mut log = 0;
+    if val >= 100_000 {
+        val /= 100_000;
+        log += 5;
+    }
+    log + less_than_5(val as u32)
+}
+
 // 0 < val <= u32::MAX
 #[inline]
 pub(super) const fn u32(mut val: u32) -> u32 {
@@ -97,6 +108,12 @@ pub(super) const fn usize(val: usize) -> u32 {
     u16(val as _)
 }
 
+#[cfg(target_pointer_width = "24")]
+#[inline]
+pub(super) const fn usize(val: usize) -> u32 {
+    u24(val as _)
+}
+
 #[cfg(target_pointer_width = "32")]
 #[inline]
 pub(super) const fn usize(val: usize) -> u32 {
@@ -119,6 +136,11 @@ pub(super) const fn i8(val: i8) -> u32 {
 #[inline]
 pub(super) const fn i16(val: i16) -> u32 {
     u16(val as u16)
+}
+// 0 < val <= i24::MAX
+#[inline]
+pub(super) const fn i24(val: i24) -> u32 {
+    u24(val as u24)
 }
 
 // 0 < val <= i32::MAX

@@ -6,7 +6,7 @@ use crate::spec::{
 
 pub(crate) fn target() -> Target {
     Target {
-        llvm_target: "z80".into(),
+        llvm_target: "ez80".into(),
         metadata: TargetMetadata {
             description: Some("eZ80 target, no OS support".into()),
             tier: Some(3),
@@ -17,6 +17,7 @@ pub(crate) fn target() -> Target {
         data_layout: "e-m:z-p:24:8-p1:16:8-p2:8:8-p3:16:8-p4:24:8-i16:8-i24:8-i32:8-i48:8-i64:8-i96:8-f32:8-f64:8-a:8-n8:16:24-S8".into(),
         arch: "ez80".into(),
         options: TargetOptions {
+            features: "+24bit-mode".into(),
             code_model: None,
             need_explicit_cpu: false,
             max_atomic_width: None,

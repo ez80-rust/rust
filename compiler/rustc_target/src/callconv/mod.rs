@@ -34,6 +34,7 @@ mod x86_64;
 mod x86_win32;
 mod x86_win64;
 mod xtensa;
+mod ez80;
 
 #[derive(Clone, PartialEq, Eq, Hash, Debug, HashStable_Generic)]
 pub enum PassMode {
@@ -700,6 +701,7 @@ impl<'a, Ty> FnAbi<'a, Ty> {
             "riscv32" | "riscv64" => riscv::compute_abi_info(cx, self),
             "wasm32" | "wasm64" => wasm::compute_abi_info(cx, self),
             "bpf" => bpf::compute_abi_info(self),
+            "ez80" => ez80::compute_abi_info(self),
             arch => panic!("no lowering implemented for {arch}"),
         }
     }

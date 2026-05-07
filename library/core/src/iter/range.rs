@@ -14,7 +14,7 @@ macro_rules! unsafe_impl_trusted_step {
         unsafe impl TrustedStep for $type {}
     )*};
 }
-unsafe_impl_trusted_step![AsciiChar char i8 i16 i32 i64 i128 isize u8 u16 u32 u64 u128 usize Ipv4Addr Ipv6Addr];
+unsafe_impl_trusted_step![AsciiChar char i8 i16 i24 i32 i64 i128 isize u8 u16 u24 u32 u64 u128 usize Ipv4Addr Ipv6Addr];
 
 /// Objects that have a notion of *successor* and *predecessor* operations.
 ///
@@ -425,19 +425,25 @@ macro_rules! step_integer_impls {
 
 #[cfg(target_pointer_width = "64")]
 step_integer_impls! {
-    narrower than or same width as usize: [u8 i8], [u16 i16], [u32 i32], [u64 i64], [usize isize];
+    narrower than or same width as usize: [u8 i8], [u16 i16], [u24 i24], [u32 i32], [u64 i64], [usize isize];
     wider than usize: [u128 i128];
 }
 
 #[cfg(target_pointer_width = "32")]
 step_integer_impls! {
-    narrower than or same width as usize: [u8 i8], [u16 i16], [u32 i32], [usize isize];
+    narrower than or same width as usize: [u8 i8], [u16 i16], [u24 i24], [u32 i32], [usize isize];
     wider than usize: [u64 i64], [u128 i128];
 }
 
 #[cfg(target_pointer_width = "16")]
 step_integer_impls! {
     narrower than or same width as usize: [u8 i8], [u16 i16], [usize isize];
+    wider than usize: [u24 i24], [u32 i32], [u64 i64], [u128 i128];
+}
+
+#[cfg(target_pointer_width = "24")]
+step_integer_impls! {
+    narrower than or same width as usize: [u8 i8], [u16 i16], [u24 i24], [usize isize];
     wider than usize: [u32 i32], [u64 i64], [u128 i128];
 }
 
@@ -926,8 +932,8 @@ impl<A: Step> Iterator for ops::Range<A> {
 //   this is the case for types *strictly narrower* than `usize`
 //   since e.g. `(0..=u64::MAX).len()` would be `u64::MAX + 1`.
 range_exact_iter_impl! {
-    usize u8 u16
-    isize i8 i16
+    usize u8 u16 u24
+    isize i8 i16 i24
 
     // These are incorrect per the reasoning above,
     // but removing them would be a breaking change as they were stabilized in Rust 1.0.0.
@@ -938,17 +944,19 @@ range_exact_iter_impl! {
 }
 
 unsafe_range_trusted_random_access_impl! {
-    usize u8 u16
-    isize i8 i16
+    usize u8 u16 u24
+    isize i8 i16 i24
 }
 
 #[cfg(target_pointer_width = "32")]
 unsafe_range_trusted_random_access_impl! {
+    u24 i24
     u32 i32
 }
 
 #[cfg(target_pointer_width = "64")]
 unsafe_range_trusted_random_access_impl! {
+    u24 i24
     u32 i32
     u64 i64
 }

@@ -265,8 +265,8 @@ pub trait StructuralPartialEq {
 marker_impls! {
     #[unstable(feature = "structural_match", issue = "31434")]
     StructuralPartialEq for
-        usize, u8, u16, u32, u64, u128,
-        isize, i8, i16, i32, i64, i128,
+        usize, u8, u16, u24, u32, u64, u128,
+        isize, i8, i16, i24, i32, i64, i128,
         bool,
         char,
         str /* Technically requires `[u8]: StructuralPartialEq` */,
@@ -482,8 +482,8 @@ pub macro Copy($item:item) {
 marker_impls! {
     #[stable(feature = "rust1", since = "1.0.0")]
     Copy for
-        usize, u8, u16, u32, u64, u128,
-        isize, i8, i16, i32, i64, i128,
+        usize, u8, u16, u24, u32, u64, u128,
+        isize, i8, i16, i24, i32, i64, i128,
         f16, f32, f64, f128,
         bool, char,
         {T: PointeeSized} *const T,
@@ -1114,8 +1114,8 @@ pub macro UnsizedConstParamTy($item:item) {
 marker_impls! {
     #[unstable(feature = "adt_const_params", issue = "95174")]
     ConstParamTy_ for
-        usize, u8, u16, u32, u64, u128,
-        isize, i8, i16, i32, i64, i128,
+        usize, u8, u16, u24, u32, u64, u128,
+        isize, i8, i16, i24, i32, i64, i128,
         bool,
         char,
         (),
@@ -1125,8 +1125,8 @@ marker_impls! {
 marker_impls! {
     #[unstable(feature = "unsized_const_params", issue = "95174")]
     UnsizedConstParamTy for
-        usize, u8, u16, u32, u64, u128,
-        isize, i8, i16, i32, i64, i128,
+        usize, u8, u16, u24, u32, u64, u128,
+        isize, i8, i16, i24, i32, i64, i128,
         bool,
         char,
         (),

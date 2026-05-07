@@ -24,6 +24,7 @@ pub(crate) unsafe fn codegen(
 ) {
     let usize = match tcx.sess.target.pointer_width {
         16 => cx.type_i16(),
+        24 => cx.type_i24(),
         32 => cx.type_i32(),
         64 => cx.type_i64(),
         tws => bug!("Unsupported target word size for int: {}", tws),

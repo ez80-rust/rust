@@ -369,6 +369,12 @@ pub trait Hasher {
     fn write_u16(&mut self, i: u16) {
         self.write(&i.to_ne_bytes())
     }
+    /// Writes a single `u16` into this hasher.
+    #[inline]
+    #[stable(feature = "hasher_write", since = "1.3.0")]
+    fn write_u24(&mut self, i: u24) {
+        self.write(&i.to_ne_bytes())
+    }
     /// Writes a single `u32` into this hasher.
     #[inline]
     #[stable(feature = "hasher_write", since = "1.3.0")]
@@ -405,6 +411,12 @@ pub trait Hasher {
     #[stable(feature = "hasher_write", since = "1.3.0")]
     fn write_i16(&mut self, i: i16) {
         self.write_u16(i as u16)
+    }
+    /// Writes a single `i16` into this hasher.
+    #[inline]
+    #[stable(feature = "hasher_write", since = "1.3.0")]
+    fn write_i24(&mut self, i: i24) {
+        self.write_u24(i as u24)
     }
     /// Writes a single `i32` into this hasher.
     #[inline]
@@ -568,6 +580,9 @@ impl<H: Hasher + ?Sized> Hasher for &mut H {
     fn write_u16(&mut self, i: u16) {
         (**self).write_u16(i)
     }
+    fn write_u24(&mut self, i: u24) {
+        (**self).write_u24(i)
+    }
     fn write_u32(&mut self, i: u32) {
         (**self).write_u32(i)
     }
@@ -585,6 +600,9 @@ impl<H: Hasher + ?Sized> Hasher for &mut H {
     }
     fn write_i16(&mut self, i: i16) {
         (**self).write_i16(i)
+    }
+    fn write_i24(&mut self, i: i24) {
+        (**self).write_i24(i)
     }
     fn write_i32(&mut self, i: i32) {
         (**self).write_i32(i)
@@ -829,11 +847,13 @@ mod impls {
     impl_write! {
         (u8, write_u8),
         (u16, write_u16),
+        (u24, write_u24),
         (u32, write_u32),
         (u64, write_u64),
         (usize, write_usize),
         (i8, write_i8),
         (i16, write_i16),
+        (i24, write_i24),
         (i32, write_i32),
         (i64, write_i64),
         (isize, write_isize),

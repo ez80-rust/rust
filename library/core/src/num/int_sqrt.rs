@@ -67,6 +67,7 @@ macro_rules! signed_fn {
 
 signed_fn!(i8, u8);
 signed_fn!(i16, u16);
+signed_fn!(i24, u24);
 signed_fn!(i32, u32);
 signed_fn!(i64, u64);
 signed_fn!(i128, u128);
@@ -260,6 +261,19 @@ const fn u16_stages(n: u16) -> u16 {
     last_stage!(u16, n, s, r)
 }
 
+/// Takes the normalized [`u16`](prim@u16) input and gets its normalized
+/// [integer square root](https://en.wikipedia.org/wiki/Integer_square_root).
+///
+/// # Safety
+///
+/// `n` must be nonzero.
+#[inline]
+const fn u24_stages(n: u24) -> u24 {
+    let (s, r) = first_stage!(24, n);
+    let (s, r) = middle_stage!(24, u16, n, s, r);
+    last_stage!(u24, n, s, r)
+}
+
 /// Takes the normalized [`u32`](prim@u32) input and gets its normalized
 /// [integer square root](https://en.wikipedia.org/wiki/Integer_square_root).
 ///
@@ -303,6 +317,7 @@ const fn u128_stages(n: u128) -> u128 {
 }
 
 unsigned_fn!(u16, u8, u16_stages);
+unsigned_fn!(u24, u16, u24_stages);
 unsigned_fn!(u32, u16, u32_stages);
 unsigned_fn!(u64, u32, u64_stages);
 unsigned_fn!(u128, u64, u128_stages);

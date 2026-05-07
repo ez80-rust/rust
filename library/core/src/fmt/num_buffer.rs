@@ -26,6 +26,7 @@ macro_rules! impl_NumBufferTrait {
 impl_NumBufferTrait! {
     i8, u8,
     i16, u16,
+    i24, u24,
     i32, u32,
     i64, u64,
     isize, usize,

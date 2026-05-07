@@ -715,7 +715,9 @@ pub struct TypeId {
     /// the TypeId actually is, allowing CTFE and miri to operate based off it.
     /// At runtime all the pointers in the array contain bits of the hash, making
     /// the entire `TypeId` actually just be a `u128` hash of the type.
-    pub(crate) data: [*const (); 16 / size_of::<*const ()>()],
+    pub(crate) data: [*const (); 5],
+    /// eZ80 note: Because the eZ80 is weird, the above is 15 bytes, so we need to add an extra byte. Sigh.
+    pub(crate) extra: u8,
 }
 
 // SAFETY: the raw pointer is always an integer
