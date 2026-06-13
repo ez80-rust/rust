@@ -98,6 +98,18 @@ pub(crate) fn compile_codegen_unit(
             // ... and now that we have everything pre-defined, fill out those definitions.
             for &(mono_item, item_data) in &mono_items {
                 mono_item.define::<Builder<'_, '_, '_>>(&mut cx, cgu_name.as_str(), item_data);
+
+                match mono_item {
+                    MonoItem::Fn(instance) => {
+                        let name = mono_item.symbol_name(tcx);
+
+                        if name.name == "_ZN104_$LT$core..iter..adapters..cloned..Cloned$LT$I$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17hed9902370d9c3d88E" {
+                            let llfn = cx.get_fn(instance);
+                            unsafe { llvm::LLVMDumpValue(llfn) };
+                        }
+                    }
+                    _ => {}
+                }
             }
 
             // If this codegen unit contains the main function, also create the

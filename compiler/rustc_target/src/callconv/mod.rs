@@ -510,6 +510,28 @@ impl<'a, Ty> ArgAbi<'a, Ty> {
         }
     }
 
+    pub fn extend_all_width_to(&mut self, bits: u64) {
+        // Only integers have signedness
+        if let BackendRepr::Scalar(scalar) = self.layout.backend_repr
+            && let Primitive::Int(i, signed) = scalar.primitive()
+            && i.size().bits() < bits
+            && let PassMode::Direct(ref mut attrs) = self.mode
+        {
+            if signed {
+                attrs.ext(ArgExtension::Sext);
+            } else {
+                attrs.ext(ArgExtension::Zext);
+            }
+        } else {
+            match self.mode {
+                PassMode::Pair(ref mut attrs, _) => {
+                    attrs.ext(ArgExtension::Zext);
+                }
+                _ => {}
+            }
+        }
+    }
+
     pub fn cast_to<T: Into<CastTarget>>(&mut self, target: T) {
         self.mode = PassMode::Cast { cast: Box::new(target.into()), pad_i32: false };
     }
@@ -829,6 +851,11 @@ impl<'a, Ty> FnAbi<'a, Ty> {
 
                 _ => {}
             }
+        }
+
+        if &*spec.arch == "ez80" {
+            // afterwards, since we need to override some settings in the above loop
+            ez80::compute_rust_abi_info(cx, self);
         }
     }
 }
